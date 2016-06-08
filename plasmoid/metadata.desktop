@@ -1,0 +1,21 @@
+[Desktop Entry]
+Encoding=UTF-8
+Name=KRunner Widget
+Name[es]=KRunner Widget
+Comment=Plasma5 applet that allows you embed krunner into your panel.
+Comment[es]=Componente de Plasma5 que le permite embeber KRunner en su panel.
+Type=Service
+Icon=system-run
+#X-KDE-ParentApp=
+#X-KDE-PluginInfo-Author=
+#X-KDE-PluginInfo-Email=
+X-KDE-PluginInfo-License=GPL3
+X-KDE-PluginInfo-Name=org.plasma-light.krunner
+X-KDE-PluginInfo-Version=0.1.0
+X-KDE-PluginInfo-Website=https://github.com/plasma-light/plasma-widget-krunner
+X-KDE-PluginInfo-Category=Utilities
+X-KDE-ServiceTypes=Plasma/Applet
+X-Plasma-API=declarativeappletscript
+X-Plasma-MainScript=ui/main.qml
+X-Plasma-RemoteLocation=
+X-Plasma-StandAloneApp=true
