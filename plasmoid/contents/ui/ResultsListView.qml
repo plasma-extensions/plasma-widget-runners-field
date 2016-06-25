@@ -32,45 +32,10 @@ ScrollView {
             }
         }
     }
-
-    ListView {
-        id: listView
-        anchors.fill: parent
-        displayMarginBeginning: 0;
-        
-        delegate: resultDelegate
-        highlight: Rectangle { color: "lightsteelblue";}
-        focus: true
-    }
-}
-/*
-ListView {
-    id: listView
-       
-    delegate: GridLayout {
-        columns: 2
-        Layout.fillWidth: true;
-        PlasmaCore.IconItem { Layout.column: 1; source: icon;}
-        Text {Layout.column: 2;  text: label;}
-        
-        MouseArea {
-            anchors.fill: parent;
-            onClicked: runnermodel.run(index);
-        }
-    }
     
-    highlightFollowsCurrentItem: true
-    highlight: Rectangle {
-        //width: 20; height: 20;
-        color: "lightblue"; 
-        
-    }
-            
-        
-        
-    section.property: "runnerName"
-    section.criteria: ViewSection.FullString
-    section.delegate: Rectangle {
+    Component {
+        id: sectionDelegate
+        Rectangle {
             //width: container.width
             height: childrenRect.height
             color: "lightsteelblue"
@@ -80,4 +45,19 @@ ListView {
                 font.pixelSize: 14
             }
         }
-}*/
+    }
+
+    ListView {
+        id: listView
+        anchors.fill: parent
+        displayMarginBeginning: 0;
+        
+        delegate: resultDelegate
+        highlight: Rectangle { color: "lightsteelblue";}
+        focus: true
+        
+        section.property: "runnerName"
+        section.criteria: ViewSection.FullString
+        section.delegate: sectionDelegate;
+    }
+}
