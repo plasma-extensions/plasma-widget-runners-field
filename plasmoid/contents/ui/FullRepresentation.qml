@@ -1,4 +1,4 @@
-import QtQuick 2.0
+import QtQuick 2.5
 import QtQuick.Layouts 1.1
 import QtQuick.Controls 1.3
 import QtQuick.Controls.Styles 1.4
@@ -6,47 +6,70 @@ import org.kde.plasma.plasmoid 2.0
 import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.plasma.components 2.0 as PlasmaComponents
 
-FocusScope {
+Item {
+    id: root
     width: 400; height: 200;
     
-    RowLayout {
-        id: icons
-        anchors.left: parent.left;
-        anchors.right: parent.right;
-        anchors.top: parent.top;
+    onVisibleChanged: {
+        if (root.visible) {
+            Plasmoid.status = PlasmaCore.Types.ActiveStatus
+            root.focus = true;
         
-        PlasmaCore.IconItem { source: "document-open-recent"}
-        PlasmaCore.IconItem { source: "system-run"}
-        PlasmaCore.IconItem { source: "folder"}
-        PlasmaCore.IconItem { source: "accessories-calculator"}
-        PlasmaCore.IconItem { source: "favorites"}
-        
-        /*
-        focus: true
-        */
-    }
-    
-    HightLightLine {
-        id: hightLightLine
-        anchors.left: parent.left;
-        anchors.right: parent.right;
-        anchors.top: icons.bottom;
-        
-        steps: 5;
-    }
-    
-    ApplicationsListView {
-        anchors.left: parent.left;
-        anchors.right: parent.right;
-        anchors.top: hightLightLine.bottom; anchors.bottom: parent.bottom;
-        
-        Keys.onPressed: {
-            console.log("key pressed" + event.key);
-            if (event.key == Qt.Key_Left)
-                hightLightLine.selected = hightLightLine.selected > 0 ? hightLightLine.selected - 1 : 0;
-            if (event.key == Qt.Key_Right)
-                hightLightLine.selected = hightLightLine.selected < hightLightLine.steps ? hightLightLine.selected + 1 : hightLightLine.steps;
+            queryInput.text = main.query;
         }
     }
+    
+    
+    Keys.onPressed: {
+        console.log(event.key + " pressed")
+        if (event.key == Qt.Key_Escape) {
+            plasmoid.expanded = false;
+        }
+    }
+    
 
+    TextInput {
+        id: queryInput;
+        anchors.bottom: root.bottom;
+        anchors.right: root.right;
+        text: main.query;
+        onTextChanged: {
+            main.query = queryInput.text;
+        }
+    }
+    
+    Keys.forwardTo: [sectionTabs, applicationsListView, queryInput]
+    focus: true
+
+    
+    /*
+    Keys.onLeftPressed: {
+        console.log(" left pressed")
+        icons.currentIndex = icons.currentIndex - 1 > 0 ? icons.currentIndex - 1 : 0;
+    }
+    
+    Keys.onRightPressed: {
+        console.log(" right pressed")
+        icons.currentIndex = icons.currentIndex + 1 < icons.model.count ? icons.currentIndex + 1 : 0;
+    }*/
+
+    
+    SectionTabs {
+        id: sectionTabs;
+        width: root.width;
+        
+        anchors.top: parent.top;
+        anchors.left: parent.left; anchors.right: parent.right;
+    }
+
+    ApplicationsListView {
+        id: applicationsListView;
+        width: root.width
+        
+        query: queryInput.text;
+        focus: true;
+        
+        anchors.top: sectionTabs.bottom;
+        anchors.left: parent.left; anchors.right: parent.right;
+    }
 }

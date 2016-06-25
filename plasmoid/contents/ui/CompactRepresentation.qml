@@ -26,25 +26,13 @@ RowLayout {
         
         // Bind to main query property
         text: main.query;
-        
-        //focus: true
-        Keys.onPressed: {
-            if (event.key == Qt.Key_Escape) {
-                queryInput.text = "";
-                
-                // queryInput.focus = true;
-                plasmoid.expanded = false;
-            }
-            
-        }
-        onEditingFinished: main.query = queryInput.text;
-        onAccepted: { 
-            print('Doing it!');
-             plasmoid.expanded = true;
-             // queryInput.focus = true;
-             
+        onEditingFinished: {
+            main.query = queryInput.text;
+            plasmoid.expanded = true;
         }
     }
+    
+    
     
     
     
