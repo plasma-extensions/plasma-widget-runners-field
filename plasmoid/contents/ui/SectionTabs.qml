@@ -6,6 +6,8 @@ import org.kde.plasma.core 2.0 as PlasmaCore
 FocusScope {
     Keys.forwardTo: [icons]
     
+    property alias currentIndex: icons.currentIndex;
+    
     id: root
     width: 400; height: 38;
     

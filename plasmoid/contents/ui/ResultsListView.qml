@@ -6,28 +6,12 @@ import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.runnermodel 2.0
 
 ScrollView {
-    // Disable horizontal scroll
-    //horizontalScrollBarPolicy: Qt.ScrollBarAlwaysOff;
     id: root
-    property var query: "";
-    property var runners: [""];
     
-    // width: 180; height: 200
+    property alias model: listView.model;
+    
     Keys.forwardTo: [listView]
-    
-    
-    Component {
-        id: contactDelegate
-        Item {
-            height: 40
-            anchors.left: parent.left; anchors.right: parent.right;
-            Column {
-                Text { text: '<b>Name:</b> ' + name }
-                Text { text: '<b>Number:</b> ' + number }
-            }
-        }
-    }
-    
+       
     Component {
         id: resultDelegate
         Item {
@@ -53,7 +37,6 @@ ScrollView {
         id: listView
         anchors.fill: parent
         displayMarginBeginning: 0;
-        model: RunnerModel { query: root.query; }
         
         delegate: resultDelegate
         highlight: Rectangle { color: "lightsteelblue";}

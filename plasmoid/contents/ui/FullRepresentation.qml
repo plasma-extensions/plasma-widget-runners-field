@@ -6,6 +6,8 @@ import org.kde.plasma.plasmoid 2.0
 import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.plasma.components 2.0 as PlasmaComponents
 
+import "../code/data.js" as Data
+
 Item {
     id: root
     width: 400; height: 200;
@@ -19,6 +21,9 @@ Item {
         }
     }
     
+    Component.onCompleted: {
+        Data.initRunnerModels(root, queryInput.text);
+    }
     
     Keys.onPressed: {
         console.log(event.key + " pressed")
@@ -32,41 +37,34 @@ Item {
         id: queryInput;
         anchors.bottom: root.bottom;
         anchors.right: root.right;
-        text: main.query;
         onTextChanged: {
             main.query = queryInput.text;
+            Data.updateQuery(queryInput.text);
         }
     }
     
-    Keys.forwardTo: [sectionTabs, applicationsListView, queryInput]
+    Keys.forwardTo: [sectionTabs, resultsListView, queryInput]
     focus: true
 
-    
-    /*
-    Keys.onLeftPressed: {
-        console.log(" left pressed")
-        icons.currentIndex = icons.currentIndex - 1 > 0 ? icons.currentIndex - 1 : 0;
-    }
-    
-    Keys.onRightPressed: {
-        console.log(" right pressed")
-        icons.currentIndex = icons.currentIndex + 1 < icons.model.count ? icons.currentIndex + 1 : 0;
-    }*/
-
-    
+       
     SectionTabs {
         id: sectionTabs;
         width: root.width;
         
         anchors.top: parent.top;
         anchors.left: parent.left; anchors.right: parent.right;
+        
+        onCurrentIndexChanged: {
+            Data.changeListModel(resultsListView, sectionTabs.currentIndex)
+            Data.updateQuery(queryInput.text);
+        }
     }
 
-    ApplicationsListView {
-        id: applicationsListView;
+
+    ResultsListView {
+        id: resultsListView;
         width: root.width
         
-        query: queryInput.text;
         focus: true;
         
         anchors.top: sectionTabs.bottom;
