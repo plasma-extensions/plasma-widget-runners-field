@@ -69,5 +69,7 @@ Item {
         
         anchors.top: sectionTabs.bottom;
         anchors.left: parent.left; anchors.right: parent.right;
+        
+        onItemTriggered: Data.triggerAction(index)
     }
 }

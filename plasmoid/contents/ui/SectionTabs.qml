@@ -63,11 +63,7 @@ FocusScope {
                 Layout.leftMargin: (root.width/5 - width) / 2; Layout.rightMargin: (root.width/5 - width) / 2; Layout.bottomMargin: 6;
                 MouseArea {
                     anchors.fill: parent;
-                    onClicked: {
-                        console.log("clicked " + index)
-                        icons.currentIndex = index;
-                        console.log("clicked " + icons.currentIndex)
-                    }
+                    onClicked: icons.currentIndex = index;
                 }
             }
         }
