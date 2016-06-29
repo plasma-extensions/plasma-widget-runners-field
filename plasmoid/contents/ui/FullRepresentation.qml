@@ -32,20 +32,19 @@ Item {
         }
     }
     
-
+    Keys.forwardTo: [sectionTabs, resultsListView, queryInput]
+    focus: true
+    
     TextInput {
         id: queryInput;
-        anchors.bottom: root.bottom;
-        anchors.right: root.right;
         onTextChanged: {
             main.query = queryInput.text;
             Data.updateQuery(queryInput.text);
         }
+        
+        // Hide text
+        echoMode: TextInput.NoEcho;
     }
-    
-    Keys.forwardTo: [sectionTabs, resultsListView, queryInput]
-    focus: true
-
        
     SectionTabs {
         id: sectionTabs;
@@ -67,9 +66,10 @@ Item {
         
         focus: true;
         
-        anchors.top: sectionTabs.bottom;
-        anchors.left: parent.left; anchors.right: parent.right;
         
+        anchors.top: sectionTabs.bottom; anchors.bottom: root.bottom;
+        anchors.left: parent.left; anchors.right: parent.right;
+
         onItemTriggered: Data.triggerAction(index)
     }
 }
