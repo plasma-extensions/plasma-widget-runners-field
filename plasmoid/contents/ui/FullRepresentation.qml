@@ -12,6 +12,36 @@ Item {
     id: root
     width: 400; height: 200;
     
+    property int negative_margin: -7
+    anchors.topMargin: negative_margin 
+    anchors.bottomMargin: negative_margin + 24
+
+    anchors.leftMargin: negative_margin + 1
+    anchors.rightMargin: negative_margin + 1
+    
+    Rectangle {
+        id: header
+
+        anchors.top: parent.top;
+        anchors.left: parent.left; anchors.right: parent.right;
+        
+        color: "#3DAEE9"
+        height: 40;
+        
+            Text {
+                id: header_text
+                //anchors.top: parent.top
+                anchors.left: parent.left
+                anchors.verticalCenter: parent.verticalCenter
+                anchors.leftMargin: 10 
+                anchors.topMargin: 16; anchors.bottomMargin: 10;
+                
+                color: "white"
+                text: i18n("KRunner"); 
+                font.family: "Noto Sans"; font.pointSize: 12;
+            }
+    }
+    
     onVisibleChanged: {
         if (root.visible) {
             Plasmoid.status = PlasmaCore.Types.ActiveStatus
@@ -51,7 +81,7 @@ Item {
         id: sectionTabs;
         width: root.width;
         
-        anchors.top: parent.top;
+        anchors.top: header.bottom;
         anchors.left: parent.left; anchors.right: parent.right;
         
         onCurrentIndexChanged: {
