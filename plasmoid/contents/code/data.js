@@ -1,9 +1,9 @@
 var runnersSelection = [
-    [""],
+    ["recentdocuments"],
     ["services", "shell"],
     ["places","locations", "folder", "baloosearch"], 
     ["calculator", "unitconverter"],
-    ["bookmarks"]
+    ["bookmarks", "webshortcuts"]
 ]
 
 var runnersModels = [];
