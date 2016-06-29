@@ -26,9 +26,9 @@ RowLayout {
         
         // Bind to main query property
         text: main.query;
-        onEditingFinished: {
-            main.query = queryInput.text;
-            plasmoid.expanded = true;
+        MouseArea {
+            anchors.fill: parent
+            onClicked: plasmoid.expanded = true;
         }
     }
     

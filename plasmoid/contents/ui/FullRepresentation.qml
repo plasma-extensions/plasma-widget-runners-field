@@ -29,6 +29,7 @@ Item {
         console.log(event.key + " pressed")
         if (event.key == Qt.Key_Escape) {
             plasmoid.expanded = false;
+            queryInput.text = "";
         }
     }
     
