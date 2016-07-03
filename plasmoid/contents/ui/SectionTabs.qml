@@ -11,15 +11,6 @@ FocusScope {
     id: root
     width: 400; height: 38;
     
-    Rectangle {
-        id: separatorLine
-        anchors.top: icons.bottom;
-        anchors.left: parent.left; anchors.right: parent.right;
-        
-        color: "gray"
-        height: 2
-    }
-
     
     ListModel {
         id: listModel
@@ -36,7 +27,7 @@ FocusScope {
         anchors.top: parent.top;
         anchors.left: parent.left; anchors.right: parent.right;
         
-        height: 36;
+        height: 42;
         
         keyNavigationWraps: true;
         orientation: ListView.Horizontal;
@@ -53,18 +44,34 @@ FocusScope {
         }
     }
     
+    Rectangle {
+        id: separatorLine
+        anchors.top: icons.bottom;
+        anchors.left: parent.left; anchors.right: parent.right;
+        
+        color: "gray"
+        height: 1
+    }
+    
     
     Component {
         id: listDelegate
         
-        RowLayout {
-                PlasmaCore.IconItem {  
-                source: icon;
-                Layout.leftMargin: (root.width/5 - width) / 2; Layout.rightMargin: (root.width/5 - width) / 2; Layout.bottomMargin: 6;
-                MouseArea {
-                    anchors.fill: parent;
-                    onClicked: icons.currentIndex = index;
-                }
+        Item {
+            width: 66; height: 42;
+            
+            PlasmaCore.IconItem {  
+                source: icon;   
+                implicitHeight: 22; implicitWidth: 22;
+                anchors.horizontalCenter: parent. horizontalCenter;
+                anchors.verticalCenter: parent. verticalCenter;
+            }
+            
+            MouseArea {
+                anchors.fill: parent;
+                hoverEnabled: true;
+                onClicked: icons.currentIndex = index;
+                onEntered: icons.currentIndex = index;
             }
         }
     }
@@ -72,10 +79,11 @@ FocusScope {
     Component {
         id: itemHighlight;
         RowLayout{
-            width: 20; height: 20;
+            width: root.width/5; height: 20;
             Rectangle{
-                height: 4;
-                anchors.left: parent.left; anchors.right: parent.right;
+                height: 2;
+                //anchors.left: parent.left; anchors.right: parent.right;
+                Layout.fillWidth: true;
                 anchors.bottom: parent.bottom;
                 
                 color: "lightblue"; 

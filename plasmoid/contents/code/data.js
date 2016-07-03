@@ -1,5 +1,6 @@
+
 var runnersSelection = [
-    ["recentdocuments"],
+    [""],
     ["services", "shell"],
     ["places","locations", "folder", "baloosearch"], 
     ["calculator", "unitconverter"],
@@ -9,8 +10,12 @@ var runnersSelection = [
 var runnersModels = [];
 var currentRunner = null;
 
+function setHistoryModel(model) {
+    runnersModels[0] = model;
+}
+
 function initRunnerModels(parent, query) {
-    for (var i = 0; i < 5; i++) {
+    for (var i = 1; i < 5; i++) {
         var newRunner = Qt.createQmlObject(
                     'import org.kde.runnermodel 2.0; RunnerModel {}',
                     parent)
@@ -23,13 +28,14 @@ function initRunnerModels(parent, query) {
 }
 
 function changeListModel(listView, modelIndex) {
-    currentRunner = runnersModels[modelIndex]; 
     updateQuery("");
+    currentRunner = runnersModels[modelIndex];
     listView.model =  currentRunner;
 }
 
 function updateQuery(query){
-    currentRunner.query = query;
+    if (currentRunner)
+        currentRunner.query = query;
 }
 
 function triggerAction(idx) {

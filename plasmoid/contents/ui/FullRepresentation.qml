@@ -7,10 +7,11 @@ import org.kde.plasma.core 2.0 as PlasmaCore
 import org.kde.plasma.components 2.0 as PlasmaComponents
 
 import "../code/data.js" as Data
+import "../code/history.js" as History
 
 Item {
     id: root
-    width: 400; height: 200;
+    width: 320; height: 348;
     
     property int negative_margin: -7
     anchors.topMargin: negative_margin 
@@ -51,7 +52,24 @@ Item {
         }
     }
     
+    ListModel {
+        id: history
+        property var query: "";
+            
+        function run() {
+        }
+    
+        function saveQuery() {
+            History.register(history, query, sectionTabs.currentIndex,  resultsListView.currentIndex )
+        }
+        
+        onQueryChanged: {History.query(query) } 
+    }
+    
     Component.onCompleted: {
+        History.init(history);
+        Data.setHistoryModel(history)
+        
         Data.initRunnerModels(root, queryInput.text);
     }
     
@@ -86,6 +104,17 @@ Item {
         
         onCurrentIndexChanged: {
             Data.changeListModel(resultsListView, sectionTabs.currentIndex)
+            switch(sectionTabs.currentIndex) {
+                case 0:
+                    resultsListView.style = "historyResults";
+                    break;
+                case 1:
+                    resultsListView.style = "applicationsResults";
+                    break;
+                default:
+                    resultsListView.style = "otherResults";
+            }
+            
             Data.updateQuery(queryInput.text);
         }
     }
@@ -94,13 +123,30 @@ Item {
     ResultsListView {
         id: resultsListView;
         width: root.width
-        
+        height: 266;
         focus: true;
         
-        
-        anchors.top: sectionTabs.bottom; anchors.bottom: root.bottom;
+        anchors.top: sectionTabs.bottom;
         anchors.left: parent.left; anchors.right: parent.right;
+        anchors.bottomMargin: 18;
+        anchors.topMargin: 14;
+        anchors.leftMargin: 18;
+        anchors.rightMargin: 18;
 
-        onItemTriggered: Data.triggerAction(index)
+        onItemTriggered: {
+            if (sectionTabs.currentIndex == 0) {
+                var history = History.getHistory(index);
+                queryInput.text = history.query;
+                sectionTabs.currentIndex = history.tab;
+                resultsListView.currentIndex = history.idx;
+            } else {
+                if (queryInput.text) {
+                    History.register(queryInput.text, sectionTabs.currentIndex, index)
+                    Data.triggerAction(index)
+                    queryInput.text = "";
+                    plasmoid.expanded = false;
+                }
+            }
+        }
     }
 }
