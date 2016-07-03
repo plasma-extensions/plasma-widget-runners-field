@@ -17,8 +17,7 @@ find_package(Qt5 ${REQUIRED_QT_VERSION} CONFIG REQUIRED Core Widgets Quick)
 find_package(KF5 ${KF5_MIN_VERSION} REQUIRED COMPONENTS Plasma Runner)
 
 
-#add_subdirectory(plugin)
-#add_subdirectory(translations)
+add_subdirectory(translations)
 
 plasma_install_package(plasmoid org.plasma-light.krunner)
 
